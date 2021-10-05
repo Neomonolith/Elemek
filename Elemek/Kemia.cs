@@ -18,11 +18,66 @@ namespace Elemek
 
       masodikfeladat();
       harmadikfeladat();
-
+      negyedikfeladat();
+      otodikfeladat();
+      hatodikfeladat();
       Console.ReadKey();
     }
 
-    private static void harmadikfeladat()
+        private static void hatodikfeladat()
+        {
+           
+            for (int i = 0; i < Elemek.Count(); i++)
+            {
+                i++;
+
+
+                if (i < Elemek.Count())
+                {
+                    Console.WriteLine("Mindent a minta");
+                }
+                else
+                {
+                    Console.WriteLine("Nincs ilyen elem az adatforrásban");
+                }
+            }
+
+            
+        }
+
+        private static void otodikfeladat()
+        {
+            bool nemjo = false;
+            Console.WriteLine("Kérem a vegyjelet: ");
+            string vegyjel = Console.ReadLine();
+            if (vegyjel.Length > 2)
+            {
+                nemjo = true;
+            }
+            foreach (var v in vegyjel)
+            {
+                if (!(v >= 'A' && v <= 'Z') || !(v >= 'a' && v <= 'z'))
+                {
+                    nemjo = true;
+                }
+            }
+        }
+
+        private static void negyedikfeladat()
+     {
+            int db = 0;
+
+            foreach (var e in Elemek)
+            {
+                if (e.Ev == "Ókor")
+                {
+                    db++;
+                }
+            }
+            Console.WriteLine("4. feladat: Felfedezések száma az ókorban:",db);
+     }
+
+        private static void harmadikfeladat()
     {
       Console.WriteLine("3. Feladat: Elemek száma", Elemek.Count());
     }
