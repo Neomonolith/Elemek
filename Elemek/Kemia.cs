@@ -5,132 +5,98 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Kémia
+namespace Kemia
 {
   class Program
   {
-    static List<data> lista = new List<data>();
+    static List<Elem> elemek = new List<Elem>();
+    static string vegyjel = String.Empty;
     static void Main(string[] args)
     {
-      int[] tomb = new int[500];
       MasodikFeladat();
       HarmadikFeladat();
       NegyedikFeladat();
       OtodikFeladat();
       HatodikFeladat();
-      HetedikFeladat();
-      NyolcadikFeladaz();
+      
+      Console.ReadKey();
     }
-
-        private static void NyolcadikFeladaz()
-        {
-            Dictionary<string, int> stat = new Dictionary<string, int>();
-            int i = 0;
-            while (lista[i].ev == "Ókor")
-            {
-                i++;
-            }
-            for (int j = 0; j < lista.Count; j++)
-            {
-                if (!stat.ContainsKey(lista[j].ev))
-                {
-                    stat.Add(lista[j].ev, 1);
-                }
-                else
-                {
-                    stat(lista[j].ev)++;
-                }
-                j++;
-            }
-            
-        }
-
-        private static void HetedikFeladat()
+    private static void HatodikFeladat()
         {
             int i = 0;
-            
-            while (lista[i].ev == "Ókor")
-            {
-                i++;
-            }
-            int max = Convert.ToInt32(lista[i+1].ev) - Convert.ToInt32(lista.[i].ev);
-            while (i < lista.Count -1)
-            {
-                if (max < Convert.ToInt32(lista[i + 1].ev) - Convert.ToInt32(lista.[i].ev))
-                {
-                    max = Convert.ToInt32(lista[i + 1].ev) - Convert.ToInt32(lista.[i].ev);
-                }
-            }
-            Console.WriteLine($"7.Feladat:{max} év volt!");
-        }
-
-        private static void HatodikFeladat()
-        {
-            int i = 0;
-            while (i < lista.Count && lista[i].Vegyjel.ToLower() != Vegyjel.ToLower())
+            while (i < elemek.Count && elemek[i].vegyjel.ToLower() != vegyjel.ToLower())
             {
                 i++;
             }
             if (i < lista.Count)
             {
-                Console.WriteLine("Keresés:");
-                Console.WriteLine($"Az elem vegyjele: {lista[i].Vegyjel}");
-                Console.WriteLine($"Az elem neve: {lista[i].Nev}");
-                Console.WriteLine($"Rendszáma: {lista[i].Rszam}");
-                Console.WriteLine($"Felfedezés éve: {lista[i].ev}");
-                Console.WriteLine($"Felfedező: {lista[i].Tudos}");
+              Console.WriteLine($"Az elem vegyjele: {elemek[i].vegyjel}");
+              Console.WriteLine($"Az elem neve: {elemek[i].Nev}");
+              Console.WriteLine($"Rendszám: {elemek[i].Rszam}");
+              Console.WriteLine($"Felfedezés éve: {elemek[i].ev}");
+              Console.WriteLine($"Felfedező: {elemek[i].Tudos}");
             }
-            else
-            {
-                Console.WriteLine("Nincs ilyen elem az adatforrásban.");
-            }
-        }
-
-        private static void OtodikFeladat()
-        {
-            bool nemjo = false;
-            Console.WriteLine("Kérem a vegyjelet: ");
-            string vegyjel = Console.ReadLine();
-            if (vegyjel.Length > 2)
-            {
-                nemjo = true;
-            }
-            foreach (var v in vegyjel)
-            {
-                if (!(v >= 'A' && v <= 'Z') || !(v >= 'a' && v <= 'z'))
+                else
                 {
-                    nemjo = true;
+                    Console.WriteLine("Nem létezik ilyen elem.");
                 }
-            }
         }
+    private static void OtodikFeladat()
+    {
+      bool nemjo = false;
+      do
+      {
 
-        private static void NegyedikFeladat()
+        nemjo = false;
+        Console.Write("5. feladat: Kérek egy vegyjelet: ");
+        vegyjel = Console.ReadLine();
+        vegyjel = vegyjel.ToLower();
+
+
+        if (vegyjel.Length > 2 || vegyjel == "")
+        {
+          nemjo = true;
+        }
+        foreach (var v in vegyjel)
+        {
+          if (v > 'z' || v < 'a')
+          {
+            nemjo = true;
+          }
+        }
+      } while (nemjo);
+    }
+
+    private static void NegyedikFeladat()
     {
       int db = 0;
-      foreach (var l in lista)
+      foreach (var e in elemek)
       {
-        if (l.ev == "Ókor")
+        if (e.Ev == "Ókor")
         {
           db++;
         }
       }
-      Console.WriteLine($"4.Feladat: Felfedezések száma az ókorban: {0}");
+      Console.WriteLine("4. feladat: Felfedezések száma az ókorban: {0}", db);
     }
 
     private static void HarmadikFeladat()
     {
-      Console.WriteLine($"3.Feladat: Elemek száma: {lista.Count}");
+      Console.WriteLine("3. feladat: Elemek száma: {0}", elemek.Count());
     }
 
     private static void MasodikFeladat()
     {
-      StreamReader olv = new StreamReader("felfedezesek.csv");
-      while (!olv.EndOfStream)
+      StreamReader be = new StreamReader("felfedezesek.csv");
+      be.ReadLine();
+      while (!be.EndOfStream)
       {
-        string[] a = olv.ReadLine().Split(';');
-        lista.Add(new data(a[0], a[1], a[2], Convert.ToInt32(a[3]), a[4]));
+        string[] a = be.ReadLine().Split(';');
+        elemek.Add(new Elem(a[0], a[1], a[2], int.Parse(a[3]), a[4]));
       }
-      olv.Close();
+      be.Close();
+
+      Console.WriteLine("2. feladat: adatok beolvasása");
     }
   }
 }
